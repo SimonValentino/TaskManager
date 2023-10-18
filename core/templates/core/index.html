@@ -1,5 +1,54 @@
-{% extends "core/base.html" %}
+{% extends "core/base.html" %} {% block head %}
+<script>
+  function validateForm(event) {
+    var content = document.getElementById("content").value;
+    var notification = document.getElementById("notification");
 
-{% block body %}
-<p>Hello WORL</p>
+    if (content.trim() === "") {
+      notification.innerHTML = "Task content cannot be empty.";
+      notification.style.display = "block";
+      event.preventDefault();
+      return false;
+    } else {
+      notification.style.display = "none";
+      return true;
+    }
+  }
+</script>
+{% endblock head %} {% block body %}
+<div class="content">
+  <h1>Task Master</h1>
+
+  <table>
+    <tr>
+      <th>Task</th>
+      <th>Added</th>
+      <th>Actions</th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+      <td>{{ task.content }}</td>
+      <td>{{ task.created_on }}</td>
+      <td>
+        <a href="">Delete</a>
+        <br />
+        <a href="">Update</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <form
+    action="/"
+    method="POST"
+    class="add-task-form"
+    onsubmit="return validateForm(event)"
+  >
+    {% csrf_token %}
+    <textarea name="content" id="content" rows="1" cols="1"></textarea>
+    <div id="notification" class="notification"></div>
+    <br />
+    <button type="submit" class="add-task-btn">Add Task</button>
+  </form>
+</div>
 {% endblock body %}
