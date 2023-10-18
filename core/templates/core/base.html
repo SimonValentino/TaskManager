@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static "css/main.css" %}">
     <title>Task Manager</title>
+    <script>
+      function validateForm(event) {
+        var content = document.getElementById("content").value;
+        var notification = document.getElementById("notification");
+
+        if (content.trim() === "") {
+          notification.innerHTML = "Task content cannot be empty.";
+          notification.style.display = "block";
+          event.preventDefault();
+          return false;
+        } else {
+          notification.style.display = "none";
+          return true;
+        }
+      }
+    </script>
     {% block head %}{% endblock %}
   </head>
   <body>
